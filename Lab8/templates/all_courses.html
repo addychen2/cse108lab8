@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('student_dashboard') }}">Your Courses</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="{{ url_for('all_courses') }}">Add Courses</a>
+    </li>
+</ul>
+
+<div class="mt-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Teacher</th>
+                <th>Time</th>
+                <th>Students Enrolled</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.name }}</td>
+                <td>{{ course.teacher.name }}</td>
+                <td>{{ course.time }}</td>
+                <td>{{ course.enrolled }}/{{ course.capacity }}</td>
+                <td>
+                    {% if course.id in enrolled_course_ids %}
+                        <span class="badge badge-success">Enrolled</span>
+                    {% elif course.enrolled >= course.capacity %}
+                        <span class="badge badge-secondary">Full</span>
+                    {% else %}
+                        <a href="{{ url_for('enroll_course', course_id=course.id) }}" class="btn btn-sm btn-primary">Add class</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
