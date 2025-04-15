@@ -1,4 +1,4 @@
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.model.form import converts
 from flask_admin.menu import MenuLink
@@ -8,12 +8,10 @@ from flask import request, flash
 from models import User, Course, Enrollment
 from werkzeug.security import generate_password_hash
 
-# Base admin view with access restriction
 class AdminModelView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.role == 'admin'
 
-# Custom User Form
 class UserForm(Form):
     username = StringField('Username')
     password = PasswordField('Password')
@@ -24,7 +22,6 @@ class UserForm(Form):
         ('student', 'Student')
     ], coerce=str)
 
-# Custom view for User model
 class UserModelView(AdminModelView):
     column_list = ['id', 'username', 'name', 'role']
     column_searchable_list = ['username', 'name']
@@ -35,14 +32,13 @@ class UserModelView(AdminModelView):
     
     def edit_form(self, obj=None):
         form = UserForm(request.form, obj=obj)
-        form.password.data = ''  # Clear password field when editing
+        form.password.data = ''
         return form
     
     def on_model_change(self, form, model, is_created):
         if form.password.data:
             model.password = generate_password_hash(form.password.data)
 
-# Combined CourseAdminView
 class CourseAdminView(AdminModelView):
     def _get_teacher_choices(self):
         return [(user.id, user.username) for user in User.query.all()]
@@ -62,7 +58,6 @@ class CourseAdminView(AdminModelView):
         form_class.teacher_id = SelectField('Teacher', coerce=int, choices=[])
         return form_class
 
-# Custom view for Enrollment with dynamic foreign key dropdowns
 class EnrollmentModelView(AdminModelView):
     form_columns = ['student_id', 'course_id', 'grade']
     column_list = ['id', 'student.username', 'student.name', 'course.name', 'grade']
@@ -108,12 +103,13 @@ class EnrollmentModelView(AdminModelView):
         model.student_id = int(form.student_id.data)
         model.course_id = int(form.course_id.data)
 
-# Initialize the admin views
+class CustomAdminIndexView(AdminIndexView):
+    def is_visible(self):
+        return False
+
 def init_admin(app, db):
-    admin = Admin(app, name='ACME University Admin', template_mode='bootstrap3')
+    admin = Admin(app, name='ACME University Admin', template_mode='bootstrap3', index_view=CustomAdminIndexView())
     admin.add_view(UserModelView(User, db.session))
     admin.add_view(CourseAdminView(Course, db.session))
     admin.add_view(EnrollmentModelView(Enrollment, db.session))
-    
-    # Add a logout menu item
     admin.add_link(MenuLink(name='Sign Out', url='/logout'))
