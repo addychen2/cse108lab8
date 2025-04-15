@@ -1,6 +1,7 @@
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.model.form import converts
+from flask_admin.menu import MenuLink
 from flask_login import current_user
 from wtforms import Form, SelectField, PasswordField, StringField
 from flask import request, flash
@@ -108,3 +109,6 @@ def init_admin(app, db):
     admin.add_view(UserModelView(User, db.session))
     admin.add_view(CourseAdminView(Course, db.session))
     admin.add_view(EnrollmentModelView(Enrollment, db.session))
+    
+    # Add a logout menu item
+    admin.add_link(MenuLink(name='Sign Out', url='/logout'))

@@ -7,10 +7,26 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/')
 def index():
+    if current_user.is_authenticated:
+        if current_user.role == 'student':
+            return redirect(url_for('student_bp.dashboard'))
+        elif current_user.role == 'teacher':
+            return redirect(url_for('teacher_bp.dashboard'))
+        elif current_user.role == 'admin':
+            return redirect(url_for('admin.index'))
     return redirect(url_for('auth.login'))
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    # If already logged in, redirect to appropriate dashboard
+    if current_user.is_authenticated:
+        if current_user.role == 'student':
+            return redirect(url_for('student_bp.dashboard'))
+        elif current_user.role == 'teacher':
+            return redirect(url_for('teacher_bp.dashboard'))
+        elif current_user.role == 'admin':
+            return redirect(url_for('admin.index'))
+            
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -34,4 +50,5 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash('You have been logged out successfully')
     return redirect(url_for('auth.login'))
