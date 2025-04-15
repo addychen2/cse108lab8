@@ -31,13 +31,68 @@ class UserModelView(AdminModelView):
         return UserForm(request.form)
     
     def edit_form(self, obj=None):
-        form = UserForm(request.form, obj=obj)
-        form.password.data = ''
+        # Don't clear password if the form was submitted
+        if request.method == 'GET':
+            form = UserForm(obj=obj)
+            form.password.data = ''  # Clear password field in edit form for GET requests only
+        else:
+            form = UserForm(request.form, obj=obj)
         return form
     
     def on_model_change(self, form, model, is_created):
-        if form.password.data:
+        # Handle password only if it's provided
+        if form.password.data:  # Only update password if field is not empty
             model.password = generate_password_hash(form.password.data)
+    
+    def update_model(self, form, model):
+        # Store the original password in case we need to restore it
+        original_password = model.password
+        
+        try:
+            # First update all fields except password
+            form.populate_obj(model)
+            
+            # Then handle password separately
+            if form.password.data:
+                model.password = generate_password_hash(form.password.data)
+                flash('Password updated successfully', 'success')
+            else:
+                # If password wasn't changed, restore the original
+                model.password = original_password
+            
+            self.session.commit()
+        except Exception as ex:
+            if not self.handle_view_exception(ex):
+                flash('Failed to update. %s' % str(ex), 'error')
+                return False
+            return False
+        
+        return True
+        
+    def on_model_delete(self, model):
+        # Delete all enrollments associated with this user first
+        Enrollment.query.filter_by(student_id=model.id).delete()
+        
+    def delete_model(self, model):
+        """
+        Delete model.
+
+        :param model: Model to delete
+        """
+        try:
+            # Execute the on_model_delete hook
+            self.on_model_delete(model)
+            
+            # Delete the model
+            self.session.delete(model)
+            self.session.commit()
+        except Exception as ex:
+            if not self.handle_view_exception(ex):
+                flash(f'Failed to delete record. {str(ex)}', 'error')
+                self.session.rollback()
+                return False
+            
+        return True
 
 class CourseAdminView(AdminModelView):
     def _get_teacher_choices(self):
@@ -107,6 +162,29 @@ class EnrollmentModelView(AdminModelView):
     def on_model_change(self, form, model, is_created):
         model.student_id = int(form.student_id.data)
         model.course_id = int(form.course_id.data)
+    
+    def delete_model(self, model):
+        """
+        Delete model.
+
+        :param model: Model to delete
+        """
+        try:
+            self.on_model_delete(model)
+            self.session.delete(model)
+            self.session.commit()
+        except Exception as ex:
+            if not self.handle_view_exception(ex):
+                flash(f'Failed to delete record. {str(ex)}', 'error')
+                self.session.rollback()
+                return False
+            
+        return True
+    
+    def on_model_delete(self, model):
+        # This is a hook method that can be used for additional actions
+        # before deleting the model. By default, it does nothing.
+        pass
 
 class CustomAdminIndexView(AdminIndexView):
     def is_visible(self):
