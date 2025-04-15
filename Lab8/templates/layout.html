@@ -4,27 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACME University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             padding-top: 20px;
+            background: #ffeef8;
+            font-family: 'Quicksand', sans-serif;
+            color: #4b2e2e;
         }
+
+        .container {
+            background: #fff0f6;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(255, 192, 203, 0.3);
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 2px dashed #f9c5d1;
         }
+
+        h2, h3 {
+            color: #e75480;
+        }
+
+        .btn-outline-secondary {
+            color: #e75480;
+            border-color: #e75480;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #e75480;
+            color: white;
+        }
+
         .navbar {
             margin-bottom: 20px;
         }
+
         .alert {
             margin-top: 10px;
+            background-color: #ffe0ec;
+            border-color: #f8b6c2;
+            color: #9c2d47;
         }
+
         .table th, .table td {
             vertical-align: middle;
+        }
+
+        .close span {
+            color: #e75480;
         }
     </style>
 </head>
@@ -32,18 +68,18 @@
     <div class="container">
         {% if current_user.is_authenticated %}
         <div class="header">
-            <h2>Welcome {{ current_user.name }}!</h2>
+            <h2>Hi, {{ current_user.name }} 🌸</h2>
             <div>
                 <h3>ACME University</h3>
                 <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-outline-secondary">Sign out</a>
             </div>
         </div>
         {% endif %}
-        
+
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <div class="alert alert-dismissible fade show" role="alert">
                         {{ message }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -52,10 +88,10 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        
+
         {% block content %}{% endblock %}
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

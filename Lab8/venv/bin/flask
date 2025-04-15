@@ -1,4 +1,6 @@
-#!/Users/addisonchen/Documents/workspace/CSE108/Lab8/venv/bin/python3.12
+#!/bin/sh
+'''exec' "/Users/alizaramos/Documents/CSE108/Lab 08/cse108lab8/Lab8/venv/bin/python3" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
