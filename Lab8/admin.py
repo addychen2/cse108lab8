@@ -113,7 +113,7 @@ class CustomAdminIndexView(AdminIndexView):
         return False
 
 def init_admin(app, db):
-    admin = Admin(app, name='ACME University Admin', template_mode='bootstrap3', index_view=CustomAdminIndexView())
+    admin = Admin(app, name='尘埃落定 University Admin', template_mode='bootstrap3', index_view=CustomAdminIndexView())
     admin.add_view(UserModelView(User, db.session))
     admin.add_view(CourseAdminView(Course, db.session))
     admin.add_view(EnrollmentModelView(Enrollment, db.session))
