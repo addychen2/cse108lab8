@@ -13,66 +13,66 @@ def create_initial_data():
         )
         
         teacher1 = User(
-            username='ahepworth', 
+            username='addy', 
             password=generate_password_hash('password'), 
             role='teacher',
-            name='Dr Hepworth'
+            name='Dr Chen'
         )
         
         teacher2 = User(
-            username='swalker', 
+            username='liz', 
             password=generate_password_hash('password'), 
             role='teacher',
-            name='Susan Walker'
+            name='Dr Ramos'
         )
         
         teacher3 = User(
-            username='rjenkins', 
+            username='luis', 
             password=generate_password_hash('password'), 
             role='teacher',
-            name='Ralph Jenkins'
+            name='Dr Garibay'
         )
         
         student1 = User(
-            username='cnorris', 
+            username='javi', 
             password=generate_password_hash('password'), 
             role='student',
-            name='Chuck'
+            name='Dr Gomez y Llagaria'
         )
         
         student2 = User(
-            username='mwright', 
+            username='evan', 
             password=generate_password_hash('password'), 
             role='student',
-            name='Mindy'
+            name='Evan A'
         )
         
         student3 = User(
-            username='aranganath', 
+            username='daniel', 
             password=generate_password_hash('password'), 
             role='student',
-            name='Aditya Ranganath'
+            name='Daniel Nestares'
         )
         
         student4 = User(
-            username='nlittle', 
+            username='TJkeny', 
             password=generate_password_hash('password'), 
             role='student',
-            name='Nancy Little'
+            name='TJ Keny'
         )
         
         student5 = User(
-            username='ywchen', 
+            username='bighead', 
             password=generate_password_hash('password'), 
             role='student',
-            name='Yi Wen Chen'
+            name='Ryan Most'
         )
         
         student6 = User(
-            username='jstuart', 
+            username='jcm', 
             password=generate_password_hash('password'), 
             role='student',
-            name='John Stuart'
+            name='Julio Casal Monserrat'
         )
         
         db.session.add_all([
@@ -82,30 +82,30 @@ def create_initial_data():
         db.session.commit()
         
         course1 = Course(
-            name='Physics 121', 
+            name='CSE 120', 
             teacher_id=teacher2.id, 
-            time='TR 11:00-11:50 AM', 
+            time='Monday 9:00-10:00 AM', 
             capacity=10
         )
         
         course2 = Course(
-            name='CS 106', 
+            name='CSE 150', 
             teacher_id=teacher1.id, 
-            time='MWF 2:00-2:50 PM', 
+            time='Friday 2:00-4:00 PM', 
             capacity=10
         )
         
         course3 = Course(
-            name='Math 101', 
+            name='CSE 277', 
             teacher_id=teacher3.id, 
-            time='MWF 10:00-10:50 AM', 
+            time='MWF 7:00-11:00 AM', 
             capacity=8
         )
         
         course4 = Course(
-            name='CS 162', 
+            name='CSE 108', 
             teacher_id=teacher1.id, 
-            time='TR 3:00-3:50 PM', 
+            time='MF 8:00-11:00 PM', 
             capacity=4
         )
         
