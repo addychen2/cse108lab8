@@ -3,10 +3,10 @@
 {% block content %}
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link active" href="{{ url_for('student_dashboard') }}">Your Courses</a>
+        <a class="nav-link active" href="{{ url_for('student_bp.dashboard') }}">Your Courses</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('all_courses') }}">Add Courses</a>
+        <a class="nav-link" href="{{ url_for('student_bp.all_courses') }}">Add Courses</a>
     </li>
 </ul>
 
@@ -36,7 +36,7 @@
     </table>
     {% else %}
     <div class="alert alert-info">
-        You are not enrolled in any courses. <a href="{{ url_for('all_courses') }}">Browse available courses</a> to enroll.
+        You are not enrolled in any courses. <a href="{{ url_for('student_bp.all_courses') }}">Browse available courses</a> to enroll.
     </div>
     {% endif %}
 </div>

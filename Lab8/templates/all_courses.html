@@ -3,10 +3,10 @@
 {% block content %}
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('student_dashboard') }}">Your Courses</a>
+        <a class="nav-link" href="{{ url_for('student_bp.dashboard') }}">Your Courses</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="{{ url_for('all_courses') }}">Add Courses</a>
+        <a class="nav-link active" href="{{ url_for('student_bp.all_courses') }}">Add Courses</a>
     </li>
 </ul>
 
@@ -34,7 +34,7 @@
                     {% elif course.enrolled >= course.capacity %}
                         <span class="badge badge-secondary">Full</span>
                     {% else %}
-                        <a href="{{ url_for('enroll_course', course_id=course.id) }}" class="btn btn-sm btn-primary">Add class</a>
+                        <a href="{{ url_for('student_bp.enroll_course', course_id=course.id) }}" class="btn btn-sm btn-primary">Add class</a>
                     {% endif %}
                 </td>
             </tr>

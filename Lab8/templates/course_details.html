@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="mb-3">
-    <a href="{{ url_for('teacher_dashboard') }}" class="btn btn-sm btn-secondary">&laquo; Back to Your Courses</a>
+    <a href="{{ url_for('teacher_bp.dashboard') }}" class="btn btn-sm btn-secondary">&laquo; Back to Your Courses</a>
 </div>
 
 <h3>{{ course.name }}</h3>
@@ -36,7 +36,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="{{ url_for('update_grade') }}" method="post">
+                                <form action="{{ url_for('teacher_bp.update_grade') }}" method="post">
                                     <div class="modal-body">
                                         <input type="hidden" name="enrollment_id" value="{{ enrollment.id }}">
                                         <input type="hidden" name="course_id" value="{{ course.id }}">
