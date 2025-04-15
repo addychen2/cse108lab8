@@ -65,8 +65,13 @@ class CourseAdminView(AdminModelView):
 # Custom view for Enrollment with dynamic foreign key dropdowns
 class EnrollmentModelView(AdminModelView):
     form_columns = ['student_id', 'course_id', 'grade']
-    column_list = ['id', 'student', 'course', 'grade']
-    column_searchable_list = ['student.name', 'course.name']
+    column_list = ['id', 'student.username', 'student.name', 'course.name', 'grade']
+    column_labels = {
+        'student.username': 'Student Username',
+        'student.name': 'Student Name',
+        'course.name': 'Course Name'
+    }
+    column_searchable_list = ['student.username', 'student.name', 'course.name']
     column_filters = ['grade']
     
     def scaffold_form(self):
@@ -78,7 +83,7 @@ class EnrollmentModelView(AdminModelView):
     def create_form(self, obj=None):
         form = super().create_form(obj)
         form.student_id.choices = [
-            (str(student.id), student.name)
+            (str(student.id), f"{student.username} - {student.name}")
             for student in User.query.filter_by(role='student').all()
         ]
         form.course_id.choices = [
@@ -90,7 +95,7 @@ class EnrollmentModelView(AdminModelView):
     def edit_form(self, obj=None):
         form = super().edit_form(obj)
         form.student_id.choices = [
-            (str(student.id), student.name)
+            (str(student.id), f"{student.username} - {student.name}")
             for student in User.query.filter_by(role='student').all()
         ]
         form.course_id.choices = [
