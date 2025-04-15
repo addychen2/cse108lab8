@@ -58,6 +58,11 @@ class CourseAdminView(AdminModelView):
         form_class.teacher_id = SelectField('Teacher', coerce=int, choices=[])
         return form_class
 
+    def on_model_delete(self, model):
+        # Delete all enrollments associated with this course first
+        Enrollment.query.filter_by(course_id=model.id).delete()
+        # No need to commit here, Flask-Admin will handle it
+
 class EnrollmentModelView(AdminModelView):
     form_columns = ['student_id', 'course_id', 'grade']
     column_list = ['id', 'student.username', 'student.name', 'course.name', 'grade']
