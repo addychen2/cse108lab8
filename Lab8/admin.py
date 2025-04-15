@@ -23,7 +23,7 @@ class UserForm(Form):
     ], coerce=str)
 
 class UserModelView(AdminModelView):
-    column_list = ['id', 'username', 'name', 'role']
+    column_list = ['id', 'username', 'name', 'role', 'password']
     column_searchable_list = ['username', 'name']
     column_filters = ['role']
     
