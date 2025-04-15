@@ -54,39 +54,39 @@ The application is pre-populated with the following users:
 - Password: password
 
 ### Teachers
-- Username: ahepworth
+- Username: liz
 - Password: password
-- Name: Dr Hepworth
+- Name: Dr Ramos
 
-- Username: swalker
+- Username: addy
 - Password: password
-- Name: Susan Walker
+- Name: Dr Ramos
 
-- Username: rjenkins
+- Username: luis
 - Password: password
-- Name: Ralph Jenkins
+- Name: Dr Garibay
 
 ### Students
-- Username: cnorris
+- Username: javi
 - Password: password
-- Name: Chuck
+- Name: Dr Javier Gomez y Llagaria
 
-- Username: mwright
+- Username: evan
 - Password: password
-- Name: Mindy
+- Name: Even A
 
-- Username: aranganath
+- Username: daniel
 - Password: password
-- Name: Aditya Ranganath
+- Name: Daniel Nestares
 
-- Username: nlittle
+- Username: TJkeny
 - Password: password
-- Name: Nancy Little
+- Name: TJ Keny
 
-- Username: ywchen
+- Username: bighead
 - Password: password
-- Name: Yi Wen Chen
+- Name: Ryan Most
 
-- Username: jstuart
+- Username: jcm
 - Password: password
-- Name: John Stuart
+- Name: Julio Casal Monserrat
